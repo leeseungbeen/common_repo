@@ -1,6 +1,7 @@
 """ unit test 사용, appium 사용 모듈 임포트"""
 import unittest, time
 from appium import webdriver
+from selenium import webdriver as selenium_webdriver
 from appium.options.android import UiAutomator2Options
 
 
@@ -53,9 +54,14 @@ class BaseTest(unittest.TestCase):
         # get driver
         self.driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(self.capabilities))
 
+        selenium_options = selenium_webdriver.ChromeOptions()
+        self.selenium_driver  = selenium_webdriver.Chrome(options=selenium_options)
+
     # Fixture Function 테스트 후 수행.  appium 드라이버 제거.
     def tearDown(self) -> None:
         if self.driver:
             self.driver.quit()
+        if self.selenium_driver:
+            self.selenium_driver.quit()
 
 # --[end]CustomTest Class
