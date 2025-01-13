@@ -86,7 +86,7 @@ class CustomTest(base_test.BaseTest):
 
 
         def test_funeasy_macro(self) -> None:
-            self.login_funeasy_app()
+          #  self.login_funeasy_app()
 
             self.move_to_mission_page()
 
