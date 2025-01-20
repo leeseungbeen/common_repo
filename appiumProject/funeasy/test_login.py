@@ -20,7 +20,7 @@ class LoginTest(base_test.BaseTest):
         def tearDown(self) -> None:
             pass
 
-        def login_funeasy_app(self):
+        def login_funeasy_app(self, email_addr, email_pw):
             # email 로그인 화면 클릭 이동
             time.sleep(5)
             el1 = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="이메일 로그인")
@@ -31,13 +31,13 @@ class LoginTest(base_test.BaseTest):
             el2 = self.driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
                                            value="new UiSelector().className(\"android.widget.EditText\").instance(0)")
             el2.click()
-            el2.send_keys("zeroandi@naver.com")
+            el2.send_keys(email_addr)
 
             # email 비번 입력
             el3 = self.driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
                                            value="new UiSelector().className(\"android.widget.EditText\").instance(1)")
             el3.click()
-            el3.send_keys("password1!")
+            el3.send_keys(email_pw)
 
             # 로그인하기 버튼 클릭
             el4 = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="로그인하기")
@@ -65,7 +65,11 @@ class LoginTest(base_test.BaseTest):
 
 
         def test_login(self) -> None:
-            self.login_funeasy_app()
+
+            tmp_cur_idx = 0
+            tmp_login_info_arr = [{'email_addr':'zeroandi@naver.com', 'email_pw':"password1!"}]
+
+            self.login_funeasy_app(tmp_login_info_arr[tmp_cur_idx]['email_addr'], tmp_login_info_arr[tmp_cur_idx]['email_pw'])
 
 # --[end]CustomTest Class
 
