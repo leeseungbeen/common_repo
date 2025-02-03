@@ -141,6 +141,7 @@ def check_available_sell_min(upbit):
      return_val["charge"]   = 0
      return_val["proceeds"] = 0
      return_val["min_get_money"] = 0
+     return_val["lose_sell_money"] = 0
 
      my_quantity    = get_my_quantity(upbit)
 
@@ -150,7 +151,8 @@ def check_available_sell_min(upbit):
         total_buy_price  = (my_quantity * avg_buy_price) # 총 매수 가격
         total_sell_price = (my_quantity * cur_fiat_price) # 총 매도 가격
         charge   = total_sell_price * 0.0005 # 수수료
-        min_get_money = total_sell_price * 0.005  # 최소 수익기준
+        min_get_money  = total_sell_price * 0.005  # 최소 수익기준
+        lose_sell_money = (total_buy_price - (total_buy_price * 0.03))    # 손절 기준 (3% 제외금액)
         proceeds = total_sell_price - total_buy_price
 
 
@@ -160,7 +162,8 @@ def check_available_sell_min(upbit):
         return_val["total_sell_price"] = total_sell_price
         return_val["charge"] = charge
         return_val["proceeds"] = proceeds
-        return_val["min_get_money"] =min_get_money
+        return_val["min_get_money"] = min_get_money
+        return_val["lose_sell_money"] = lose_sell_money
 
         print(f"[CHECK_SELL_INFO]: 종목가격{cur_fiat_price} 매수평균가격:{avg_buy_price} 총 매수금액:{int(total_buy_price)} 총 매도금액:{int(total_sell_price)} 수수료:{int(charge)} 수익금:{int(proceeds)} 순수 수익금:{int(proceeds) - int(charge)} 기준수익금:{int(min_get_money)}")
 

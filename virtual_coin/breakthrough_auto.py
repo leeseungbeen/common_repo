@@ -129,9 +129,13 @@ while True:
         #매도 최소조건 체크
         sell_return_val = ctrl_upbit.check_available_sell_min(upbit_inst)
 
-        if sell_return_val["is_available"] is True:
+        if sell_return_val["is_available"] is True: # 수수료제외 최소기준 익절 상황일 때 메세지 전달.
             ctrl_line_msg.send_to_me_msg("[매도신호]최소가능 " + str(sell_return_val["cur_fiat_price"]))
-
+        elif sell_return_val["total_sell_price"] < sell_return_val["lose_sell_money"]: # 현재 매도금액이 손절 기준보다 적으면 자동매도처리
+            #return_val = ctrl_upbit.sell_fiat(upbit_inst)
+            ctrl_line_msg.send_to_me_msg("[매도신호]손절구간 " + str(sell_return_val["cur_fiat_price"]))
+            time.sleep(5)
+            
         # 유저 보유 BALANCE, 종목 보유갯수 갱신
         user_balance  = ctrl_upbit.get_my_balance(upbit_inst)
         user_quantity = ctrl_upbit.get_my_quantity(upbit_inst)
